@@ -1,0 +1,239 @@
+to see all the shells avaiable in the system 
+cat /etc/shells
+
+to check for the bash
+which bash
+
+to check permisssion to the files inside a folder
+ls -al
+
+to change permisssion use chmod command
+for giving all the permission use chmod +x filename
+
+to run a script use ./example.sh
+
+in bash script space is very important 
+inside a script the path to the shell should be given as example #! /bin/bash
+to print any thing use echo "example"
+
+to rediret the data from a script to other file use echo "statement">filename.txt
+and to append use >>filename.txt
+
+comment in bash script
+for one line comment use #example
+for multile line coment 
+: '
+this is multiline
+comment'
+
+to print any text that should be a comment use heredoc 
+example:   
+cat << hello
+this the comment that need to be comment.
+hello
+
+condition statement in bash script
+
+* if statement
+count=10
+if [ $count -eq 10 ]
+then 
+   echo "equal"
+fi
+
+* if-else
+count=10
+if [ $count -eq 10 ]
+then 
+    echo "equal"
+else
+   echo "not equal"
+fi
+
+-eq = equal
+-ne = not equal 
+-gt = greater then
+-ge = greater than and equal too
+-lt = less then
+-le = less then and equal too
+-a = and operator
+-o = or operator
+[] work with -eq,-ne,-gt
+(()) work with <,>,<=,>=, ==
+
+* if-elif
+count=11
+if [ $count < 10 ]
+then 
+    echo "smaller"
+elif [$count >=10 ]
+then 
+    echo "greater then "
+else
+   echo "not equal"
+fi
+
+* and operator
+
+age=10
+if [ $age -gt 18 ] && [ $age -lt 40 ]#we can call a variable using "$age" also
+then
+    echo "not allowed"
+else
+    echo "allowed"
+fi
+
+#other way
+if [ $age -gt 18 -a $age -lt 40 ]
+then
+    echo "not allowed"
+else
+    echo "allowed"
+fi
+#other way
+if [[ $age -gt 18 && $age -lt 40 ]]
+then
+    echo "not allowed"
+else
+    echo "allowed"
+fi
+
+#other way
+
+if (( $age < 18 )) && (( $age > 40 ))
+then
+    echo "not allowed"
+else
+    echo "allowed"
+fi
+
+*or operator
+if [ $age -gt 18 ] || [ $age -lt 40 ]
+then
+    echo "check"
+else
+    echo "not chceck"
+fi
+#other way
+if [ $age -gt 18 -o $age -lt 40 ]
+then
+    echo "check"
+else
+    echo "not chceck"
+fi
+#other way
+if [[ $age -gt 18 || $age -lt 40 ]]
+then
+    echo "check"
+else
+    echo "not chceck"
+fi
+
+#other way
+
+if (( $age < 18 )) || (( $age > 40 ))
+then
+    echo "check"
+else
+    echo "not chceck"
+fi
+
+
+#case statement 
+we can say that case statement can be a kind of multiple if else statement
+#case statement
+car="BMW"
+case $car in  
+  "BMW" )
+     echo "it's BMW" ;;
+   "HONDA")
+     echo "it's HONDA" ;;
+     *)
+     echo "unknown car name";;
+esac
+
+#while loop
+
+to proform any arthematic operation use (())
+number=1
+while (( $number <= 10 ))
+do
+   echo "$number"
+   number=$((number+1))
+done
+
+#other way
+number=1
+
+while [ $number -le 10 ] 
+do
+   echo "$number"
+   number=$((number+1))
+done
+
+#untill loop
+until [ $number -ge 20 ]
+do
+   echo "$number"
+   number=$((number+1))
+done
+# for loop
+for i in {0..20..2}#{start..end..increment}
+do 
+   echo $i
+done
+for (( i = 0; i<5; i++ ))
+do 
+echo "$i"
+done
+
+
+#script input
+echo $1 $2 $3
+echo $0 $1 $2 $3
+# 0 ith argument is fixed got the filename where as 1 2 and 3 are a input 
+#example ./file.sh a b c
+
+# for echo $1 $2 $3 it will print a b c
+# for echo $0 $1 $2 $3 it will print ./file.sh a b c
+
+#array input
+args=("$@")
+#for this line there are no limit for the input if we want to set a limit
+args=("$@3")
+
+#print array element
+echo ${args[0]} ${args[1]} ${args[2]} 
+
+other way to print all the input is by using
+echo $@ print all the input 
+echo $# to print the size of the array
+
+#to read a file line by line
+while read line
+do
+    echo "$line"
+done < "${1:-/dev/stdin}"
+ 
+ ./filename.sh
+ 
+if we font give any argument then it will treat the terminal as a document and read and display the data as we write in the console.
+let the file name is untitle document
+
+./filename untitle\ document
+
+if filename is document
+./filename document
+
+#script output
+ ls -al 1>out.txt 2>test.txt
+ 1> represent the output
+ 2> represent the error
+ 
+ if we dont give 1 or just go with like this 
+ ls -al >file.txt
+ then it will assume it as a standard outfile but not a standard error file
+ if you want to make standard output and standard error file a single one then go in this way
+ ls -al >file.txt 2>&1
+ or ls -al >& file.txt
+ 
